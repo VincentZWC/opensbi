@@ -97,6 +97,12 @@ static void clint_time_wr32(u64 value, volatile u64 *addr)
 static u64 (*clint_time_rd)(volatile u64 *addr) = clint_time_rd32;
 static void (*clint_time_wr)(u64 value, volatile u64 *addr) = clint_time_wr32;
 
+u64 clint_timer_addr(void)
+{
+	/* Read CLINT Time Value */
+	return (u64)clint_time_val;
+}
+
 u64 clint_timer_value(void)
 {
 	/* Read CLINT Time Value */
