@@ -39,6 +39,7 @@
 
 /* SBI function IDs for TIME extension*/
 #define SBI_EXT_TIME_SET_TIMER			0x0
+#define SBI_EXT_TIME_MMIO_ACCESS		0x1
 
 /* SBI function IDs for IPI extension*/
 #define SBI_EXT_IPI_SEND_IPI			0x0

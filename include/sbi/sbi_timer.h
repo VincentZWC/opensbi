@@ -41,4 +41,7 @@ int sbi_timer_init(struct sbi_scratch *scratch, bool cold_boot);
 /* Exit timer */
 void sbi_timer_exit(struct sbi_scratch *scratch);
 
+/* Request to read $MTIME through MMIO */
+int sbi_timer_mmio_access(u64* addr);
+
 #endif

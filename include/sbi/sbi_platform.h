@@ -137,6 +137,8 @@ struct sbi_platform_operations {
 	int (*timer_init)(bool cold_boot);
 	/** Exit platform timer for current HART */
 	void (*timer_exit)(void);
+	/** Handle the request to read $MTIME through MMIO */
+	int (*timer_mmio_access)(u64* addr);
 
 	/** Bringup the given hart */
 	int (*hart_start)(u32 hartid, ulong saddr);
@@ -682,6 +684,13 @@ static inline void sbi_platform_timer_exit(const struct sbi_platform *plat)
 {
 	if (plat && sbi_platform_ops(plat)->timer_exit)
 		sbi_platform_ops(plat)->timer_exit();
+}
+
+static inline int sbi_platform_timer_mmio_access(const struct sbi_platform *plat, u64* addr)
+{
+	if (plat && sbi_platform_ops(plat)->timer_mmio_access)
+		return sbi_platform_ops(plat)->timer_mmio_access(addr);
+	return SBI_ENOTSUPP;
 }
 
 /**

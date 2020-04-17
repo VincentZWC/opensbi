@@ -88,6 +88,12 @@ void sbi_timer_event_start(u64 next_event)
 	csr_set(CSR_MIE, MIP_MTIP);
 }
 
+int sbi_timer_mmio_access(u64* addr)
+{
+	return sbi_platform_timer_mmio_access(sbi_platform_thishart_ptr(),
+					      addr);
+}
+
 void sbi_timer_process(void)
 {
 	csr_clear(CSR_MIE, MIP_MTIP);

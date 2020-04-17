@@ -29,6 +29,8 @@ static int sbi_ecall_time_handler(unsigned long extid, unsigned long funcid,
 #else
 		sbi_timer_event_start((u64)args[0]);
 #endif
+	} else if (funcid == SBI_EXT_TIME_MMIO_ACCESS) {
+		ret = sbi_timer_mmio_access(out_val);
 	} else
 		ret = SBI_ENOTSUPP;
 
