@@ -141,6 +141,19 @@ static u64 fu540_get_tlbr_flush_limit(void)
 	return FU540_TLB_RANGE_FLUSH_LIMIT;
 }
 
+static int fu540_timer_mmio_access(u64* addr)
+{
+	/*
+	 * In fu540, The $mtime register is alone in a page, so it is
+	 * enough to rely on S-mode to set the permission as read-only
+	 * in PTE. In addition, fu540 does not support hypervisor
+	 * extension. Therefore, here always allows S-mode to read
+	 * $mtime through MMIO.
+	 */
+	*addr = clint_timer_addr();
+	return 0;
+}
+
 static int fu540_timer_init(bool cold_boot)
 {
 	int rc;
@@ -184,6 +197,7 @@ const struct sbi_platform_operations platform_ops = {
 	.timer_event_stop	= clint_timer_event_stop,
 	.timer_event_start	= clint_timer_event_start,
 	.timer_init		= fu540_timer_init,
+	.timer_mmio_access	= fu540_timer_mmio_access,
 	.system_reboot		= fu540_system_down,
 	.system_shutdown	= fu540_system_down
 };
